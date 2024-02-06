@@ -1,27 +1,33 @@
-# A MODIFIER AVEC NGROK
-import requests
-import numpy as np
-from sklearn.metrics import accuracy_score
+from flask import Blueprint, request, jsonify
+from models.model1 import model1
+from models.model2 import train_model as model2
 
-svm_url = "http://123.ngrok.io/predict"  
+#etc...
+import pandas as pd
 
-def get_predictions(input_data):
-    svm_response = requests.get(svm_url, json={"data": input_data.tolist()}).json()
-    return svm_response['prediction']
+api = Blueprint('api', __name__)
 
-# Générer des données de test (à remplacer par vos propres données)
-test_data = np.array([[5.1, 3.5, 1.4, 0.2], [4.9, 3.0, 1.4, 0.2], [6.9, 3.1, 5.4, 2.1]])
+@api.route('/predict', methods=['GET'])
+def predict():
 
-predictions = []
-for data_point in test_data:
-    model_prediction = get_predictions(data_point)
-    predictions.append(model_prediction)
+    parameters = request.args.to_dict()
 
-consensus_prediction = np.mean(predictions, axis=0)
+    prediction1 = model1.predict(pd.DataFrame(parameters, index=[0]))
+    prediction2 = model2.predict(pd.DataFrame(parameters, index=[0]))
+    # Prediction for Model 3
+    # ...
 
-print("Consensus Prediction:", consensus_prediction)
 
-true_labels = np.array([0, 0, 1])  
+    consensus_prediction = (prediction1 + prediction2) / 2
 
-accuracy_consensus = accuracy_score(true_labels, consensus_prediction)
-print("Accuracy Consensus Prediction:", accuracy_consensus)
+
+    response = {
+        'consensus_prediction': consensus_prediction.tolist(),
+        'individual_predictions': {
+            'model1': prediction1.tolist(),
+            'model2': prediction2.tolist(),
+            # ...
+        }
+    }
+
+    return jsonify(response)

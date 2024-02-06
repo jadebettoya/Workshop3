@@ -4,20 +4,27 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from sklearn.datasets import load_iris
 
-# Load Iris dataset
-iris = load_iris()
-X = iris.data
-y = iris.target
+def train_model():
+    # Load Iris dataset
+    iris = load_iris()
+    X = iris.data
+    y = iris.target
 
-# We split the data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # We split the data into training and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    y_train = y_train.ravel()
 
-# SVM model
-model_svm = SVC(kernel='linear', random_state=42)
-model_svm.fit(X_train, y_train)
+    # SVM model
+    model_svm = SVC(kernel='linear', random_state=42)
+    model_svm.fit(X_train, y_train)
 
-# Evaluate the model (on the test set)
-accuracy_svm = accuracy_score(y_test, model_svm.predict(X_test))
+    # Evaluate the model (on the test set)
+    accuracy_svm = accuracy_score(y_test, model_svm.predict(X_test))
 
-print("Accuracy SVM:", accuracy_svm)
+    print("Accuracy SVM:", accuracy_svm)
 
+    return model_svm
+
+if __name__ == "__main__":
+    # Train the model if the script is run directly
+    trained_model = train_model()
