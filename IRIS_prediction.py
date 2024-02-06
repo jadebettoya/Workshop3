@@ -13,7 +13,7 @@ from sklearn.metrics import accuracy_score
 # Ici je divise les données en ensembles d'entraînement et de test
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
-# Je crée un modèle RandomForest
+# modèle RandomForest
 model = RandomForestClassifier(random_state=42)
 
 # ensuite on entraine ce modèle sur l'ensemble d'entraînement
@@ -22,7 +22,7 @@ model.fit(x_train, y_train.values.ravel())
 
 predictions = model.predict(x_test)
 
-# Évaluez la précision du modèle
+# evaluons la précision du modèle
 accuracy = accuracy_score(y_test, predictions)
 print(f"Précision du modèle : {accuracy * 100:.2f}%")
 
