@@ -26,5 +26,4 @@ def train_model():
     return model_svm
 
 if __name__ == "__main__":
-    # Train the model if the script is run directly
     trained_model = train_model()
