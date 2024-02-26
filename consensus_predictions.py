@@ -26,8 +26,8 @@ def predict():
     prediction2 = model2.predict(pd.DataFrame(parameters, index=[0]))
 
     # Calculate individual models accuracies 
-    accuracy_model1 = 0.85  # accuracy model 1 (à changer avec la vraie valeur)
-    accuracy_model2 = 1.00  # Accuracy SVM
+    accuracy_model1 = 1.00  # accuracy model 1 
+    accuracy_model2 = 1.00  # Accuracy model 2 SVM
     
 
     # Adjust weights based on models accuracies
